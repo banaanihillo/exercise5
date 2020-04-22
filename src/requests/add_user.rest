@@ -1,0 +1,8 @@
+POST http://localhost:3001/api/users
+Content-Type: application/json
+
+{
+    "userName": "allrightythen",
+    "name": "blogs.js Looks Really Ugly with All The Mixed async and then Calls",
+    "password": "Relatively Short Passphrase"
+}
