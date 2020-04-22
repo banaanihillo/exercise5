@@ -20,13 +20,26 @@ const App = () => {
             )  
     }, [])
 
+    useEffect(() => {
+        const currentlyLoggedIn = window.localStorage.getItem("currentlyLoggedIn")
+        if (currentlyLoggedIn) {
+            const user = JSON.parse(currentlyLoggedIn)
+            setUser(user)
+            blogService.setToken(user.token)
+        }
+    }, [])
+
     const handleLogin = async (event) => {
         event.preventDefault()
         try {
             const user = await loginService.login({
                 userName, password
             })
+            window.localStorage.setItem(
+                "currentlyLoggedIn", JSON.stringify(user)
+            )
             blogService.setToken(user.token)
+
             setUser(user)
             setUserName("")
             setPassword("")
@@ -40,7 +53,7 @@ const App = () => {
     }
 
     const loginForm = () => (
-        <form onSubmit={handleLogin}>
+        <form onSubmit = {handleLogin}>
             <div>
                 Type your user name here:
                     <input
@@ -80,7 +93,14 @@ const App = () => {
             {(user === null)
                 ? loginForm()
                 : <div>
-                    <p> Logged in as {user.name} </p>
+                    <p> Logged in as {user.userName}
+                        <button onClick = {() => {
+                            window.localStorage.removeItem("currentlyLoggedIn")
+                            setUser(null)
+                        }}>
+                        Log out
+                        </button>
+                    </p>
                     <h2> List of blogs </h2>
                     {blogs.map(blog =>
                         <Blog key = {blog.id} blog = {blog} />
