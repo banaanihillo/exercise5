@@ -12,7 +12,7 @@ const getAll = async () => {
     return response
 }
 
-const createSomething = async (newObject) => {
+const createBlog = async (newObject) => {
     const config = {
         headers: {
             Authorization: token
@@ -22,7 +22,7 @@ const createSomething = async (newObject) => {
     return response.data
 }
 
-const updateSomething = async (id, newObject) => {
+const updateBlog = async (id, newObject) => {
     const request = await axios.put(`${address}/${id}`, newObject)
     const response = request.data
     return response
@@ -30,8 +30,8 @@ const updateSomething = async (id, newObject) => {
 
 export default {
     getAll,
-    createSomething,
-    updateSomething,
+    createBlog,
+    updateBlog,
     setToken
 }
 
