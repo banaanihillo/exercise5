@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react"
 import Blog from "./components/Blog"
 import blogService from "./services/blogs"
 import loginService from "./services/login"
+import Message from "./components/Message"
 require("./styles.css")
 
 const App = () => {
@@ -9,6 +10,7 @@ const App = () => {
     const [userName, setUserName] = useState("")
     const [password, setPassword] = useState("")
     const [user, setUser] = useState(null)
+    const [message, setMessage] = useState(null)
     const [errorMessage, setErrorMessage] = useState(null)
     const [newBlogTitle, setNewBlogTitle] = useState("")
     const [newBlogAuthor, setNewBlogAuthor] = useState("")
@@ -47,7 +49,7 @@ const App = () => {
             setPassword("")
         } catch (error) {
             console.log(errorMessage)
-            setErrorMessage("Incorrect login info")
+            setErrorMessage("Incorrect login info.")
             setTimeout(() => {
                 setErrorMessage(null)
             }, 6000)
@@ -61,11 +63,16 @@ const App = () => {
             author: newBlogAuthor,
             url: newBlogAddress
         })
-        
+
         setBlogs(blogs.concat(newBlog))
         setNewBlogTitle("")
         setNewBlogAuthor("")
         setNewBlogAddress("")
+        setMessage(`Successfully added ${newBlogTitle} by ${newBlogAuthor}.`)
+        console.log(message)
+        setTimeout(() => {
+            setMessage(null)
+        }, 6000)
     }
 
     const loginForm = () => (
@@ -126,6 +133,7 @@ const App = () => {
     return (
         <div>
             <h1> Blog application </h1>
+            <Message message = {message} errorMessage = {errorMessage} />
             {(user === null)
                 ? loginForm()
                 : <div>
@@ -133,6 +141,10 @@ const App = () => {
                         <button onClick = {() => {
                             window.localStorage.removeItem("currentlyLoggedIn")
                             setUser(null)
+                            setMessage("Logged out successfully.")
+                            setTimeout(() => {
+                                setMessage(null)
+                            }, 3000)
                         }}>
                         Log out
                         </button>
