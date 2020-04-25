@@ -1,6 +1,6 @@
 import React, {useState} from "react"
 const Blog = (props) => {
-    const {blog} = props
+    const {blog, addThanks} = props
     const [displayAll, setDisplay] = useState(false)
     
     const toggleDisplay = () => {
@@ -19,8 +19,8 @@ const Blog = (props) => {
                     <p> {blog.author} </p>
                     <p> {blog.url} </p>
                     <p> Times thanked: {blog.thanks}
-                        <button onClick = {() => console.log("Click")}>
-                            You can click on this if you really want to
+                        <button onClick = {() => addThanks(blog.id)}>
+                            Thanks
                         </button>
                     </p>
             </div>

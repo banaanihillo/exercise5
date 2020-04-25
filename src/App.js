@@ -95,6 +95,25 @@ const App = () => {
         </Togglable>
     )
 
+    const addThanks = (id) => {
+        const blogToFind = blogs.find(blogToUpdate => blogToUpdate.id === id)
+        const blogToThank = {...blogToFind, thanks: (blogToFind.thanks + 1)}
+        blogService
+            .updateBlog(id, blogToThank)
+            .then(updatedBlog => {
+                setBlogs(blogs.map(blog =>
+                    (blog.id !== id)
+                        ? blog
+                        : updatedBlog))
+            })
+            .catch(error => {
+                console.log(error)
+                setErrorMessage("Something went wrong")
+                setTimeout(() => {
+                    setErrorMessage(null)
+                }, 6000)
+            })
+    }
 
     return (
         <div>
@@ -118,7 +137,7 @@ const App = () => {
                     {blogForm()}
                     <h3> List of blogs </h3>
                     {blogs.map(blog =>
-                        <Blog key = {blog.id} blog = {blog} />
+                        <Blog key = {blog.id} blog = {blog} addThanks = {addThanks} />
                     )}
 
                 </div>

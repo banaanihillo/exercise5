@@ -22,10 +22,9 @@ const createBlog = async (newObject) => {
     return response.data
 }
 
-const updateBlog = async (id, newObject) => {
-    const request = await axios.put(`${address}/${id}`, newObject)
-    const response = request.data
-    return response
+const updateBlog = (id, objectToUpdate) => {
+    const request = axios.put(`${address}/${id}`, objectToUpdate)
+    return request.then(response => response.data)
 }
 
 export default {
