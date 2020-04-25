@@ -21,8 +21,10 @@ const App = () => {
         blogService
             .getAll()
             .then(blogs =>
-                setBlogs(blogs)
-            )  
+                setBlogs(blogs.reverse(blogs.sort((comparable1, comparable2) =>
+                    comparable1.thanks - comparable2.thanks
+                )))
+            )
     }, [])
 
     useEffect(() => {
@@ -114,7 +116,7 @@ const App = () => {
                 }, 6000)
             })
     }
-
+    
     return (
         <div>
             <h1> Blog application </h1>
