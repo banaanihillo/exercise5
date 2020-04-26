@@ -21,7 +21,7 @@ const Togglable = React.forwardRef((props, ref) => {
             <div style = {formHidden}>
                 <button onClick = {toggleVisibility}> {buttonLabel} </button>
             </div>
-            <div style = {formVisible}>
+            <div style = {formVisible} className = "kinderGarten">
                 {children}
                 <button onClick = {toggleVisibility}> Hide form </button>
             </div>

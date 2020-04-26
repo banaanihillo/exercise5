@@ -19,7 +19,7 @@ const BlogForm = (props) => {
     }
 
     return (
-        <div>
+        <div className = "blogForm">
             <h2> Create new blog </h2>
             <form onSubmit = {addBlog}>
                 <div>
