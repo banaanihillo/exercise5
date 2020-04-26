@@ -1,6 +1,6 @@
 import React, {useState} from "react"
 const Blog = (props) => {
-    const {blog, addThanks} = props
+    const {blog, addThanks, deleteBlog, user} = props
     const [displayAll, setDisplay] = useState(false)
     
     const toggleDisplay = () => {
@@ -23,6 +23,12 @@ const Blog = (props) => {
                             Thanks
                         </button>
                     </p>
+                    {(user.name !== blog.user.name)
+                        ? null
+                        : <p> <button onClick = {() => deleteBlog(blog.id)}>
+                            Remove this blog
+                        </button> </p>
+                    }
             </div>
             }
         </div>

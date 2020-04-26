@@ -116,6 +116,29 @@ const App = () => {
                 }, 6000)
             })
     }
+
+    const deleteBlog = (id) => {
+        if (window.confirm(`Are you sure you want to remove ${id}?`)) {
+            blogService
+                .deleteBlog(id)
+                .then(() => {
+                    setBlogs(blogs.filter(blog => blog.id !== id))
+                    setMessage(
+                        `Removed ${id} successfully.`
+                    )
+                    setTimeout(() => {
+                        setMessage(null)
+                    }, 6000)
+                })
+                .catch(error => {
+                    console.log(error)
+                    setErrorMessage("Removal failed for some reason")
+                    setTimeout(() => {
+                        setErrorMessage(null)
+                    }, 6000)
+                })
+        }
+    }
     
     return (
         <div>
@@ -139,7 +162,13 @@ const App = () => {
                     {blogForm()}
                     <h3> List of blogs </h3>
                     {blogs.map(blog =>
-                        <Blog key = {blog.id} blog = {blog} addThanks = {addThanks} />
+                        <Blog
+                            key = {blog.id}
+                            blog = {blog}
+                            addThanks = {addThanks}
+                            deleteBlog = {deleteBlog}
+                            user = {user}
+                        />
                     )}
 
                 </div>
