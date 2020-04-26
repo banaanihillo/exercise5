@@ -2,7 +2,7 @@ import React, {useState} from "react"
 const Blog = (props) => {
     const {blog, addThanks, deleteBlog, user} = props
     const [displayAll, setDisplay] = useState(false)
-    
+
     const toggleDisplay = () => {
         setDisplay(!displayAll)
     }
@@ -29,10 +29,10 @@ const Blog = (props) => {
                             Remove this blog
                         </button> </p>
                     }
-            </div>
+                </div>
             }
         </div>
     )
-    
+
 }
 export default Blog

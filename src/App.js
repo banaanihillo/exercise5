@@ -58,7 +58,7 @@ const App = () => {
             }, 6000)
         }
     }
-    
+
     const createBlog = (blogObject) => {
         referenceToBlogForm.current.toggleVisibility()
 
@@ -68,9 +68,9 @@ const App = () => {
                 author: blogObject.author,
                 url: blogObject.url
             })
-        .then(createdBlog => {
-            setBlogs(blogs.concat(createdBlog))
-        })
+            .then(createdBlog => {
+                setBlogs(blogs.concat(createdBlog))
+            })
 
         setMessage(`Successfully added ${blogObject.title} by ${blogObject.author}.`)
         console.log(message)
@@ -139,7 +139,7 @@ const App = () => {
                 })
         }
     }
-    
+
     return (
         <div>
             <h1> Blog application </h1>
