@@ -14,38 +14,69 @@ test("Rendering the blog works", () => {
     const component = render(
         <Blog blog = {blog} />
     )
-    component.debug()
+
     expect(component.container).toHaveTextContent(
         "Something something something"
     )
     expect(component.container).not.toHaveTextContent("an address")
 })
+describe("Button clicks are working", () => {
+    test("Clicking on Expand displays additional information", () => {
+        const toggleDisplay = jest.fn()
+        const blog = {
+            title: "Buttons and Displays",
+            author: "Displayist",
+            url: "/info",
+            thanks: 5,
+            user: "User of this test"
+        }
+        const user = {
+            name: "User of this test"
+        }
+        const component = render(
+            <Blog
+                blog = {blog}
+                toggleDisplay = {toggleDisplay}
+                user = {user}
+            />
+        )
+        const expandButton = component.getByText("Expand")
+        component.debug()
+        expect(component.container).not.toHaveTextContent("Times thanked")
 
-test("Additional blog information is rendered upon button click", () => {
-    const blog = {
-        title: "Buttons and Displays",
-        author: "Displayist",
-        url: "/info",
-        thanks: 5,
-        user: "User of this test"
-    }
-    const user = {
-        name: "User of this test"
-    }
-    const toggleDisplay = jest.fn()
-    const component = render(
-        <Blog
-            blog = {blog}
-            toggleDisplay = {toggleDisplay}
-            user = {user} />
-    )
-    component.debug()
-    expect(component.container).not.toHaveTextContent("Times thanked")
-
-    const button = component.getByText("Expand")
-    console.log(prettyDOM(button))
-    fireEvent.click(button)
-    component.debug()
-    expect(component.container).toHaveTextContent("Times thanked")
-    expect(component.container).toHaveTextContent("/info")
+        console.log(prettyDOM(expandButton))
+        fireEvent.click(expandButton)
+        component.debug()
+        expect(component.container).toHaveTextContent("Times thanked")
+        expect(component.container).toHaveTextContent("/info")
+    })
+    test("Clicking on Thanks adds thanks", async () => {
+        const toggleDisplay = jest.fn()
+        const addThanks = jest.fn()
+        const blog = {
+            title: "Thank You",
+            author: "Thanker",
+            url: "/thanks",
+            thanks: 7,
+            user: "I am using this test"
+        }
+        const user = {
+            name: "I am using this test"
+        }
+        const component = render(
+            <Blog
+                blog = {blog}
+                toggleDisplay = {toggleDisplay}
+                user = {user}
+                addThanks = {addThanks} />
+        )
+        const expandButton = component.getByText("Expand")
+        fireEvent.click(expandButton)
+        const thanksButton = component.getByText("Thanks")
+        fireEvent.click(thanksButton)
+        console.log(addThanks.mock)
+        fireEvent.click(thanksButton)
+        console.log(addThanks.mock)
+        expect(addThanks.mock.calls).toHaveLength(2)
+    })
 })
