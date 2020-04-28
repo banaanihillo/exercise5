@@ -7,11 +7,16 @@ Cypress.Commands.add("Login", ({userName, password}) => {
     })
 })
 
-Cypress.Commands.add("CreateBlog", ({title, author, URL}) => {
+Cypress.Commands.add("CreateBlog", ({title, author, url, user}) => {
     cy.request({
         url: "http://localhost:3001/api/blogs",
         method: "POST",
-        body: {title, author, URL},
+        body: {
+            title,
+            author,
+            url,
+            user
+        },
         headers: {
             "Authorization": `Bearer ${JSON.parse(
                 localStorage.getItem("currentlyLoggedIn")

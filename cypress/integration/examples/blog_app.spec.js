@@ -52,7 +52,7 @@ describe("While logged in to the blog application", () => {
             .and("have.css", "color", "rgb(255, 0, 255)")
     })
 })
-/*
+
 describe("After a blog has been created", () => {
     beforeEach(() => {
         cy.request("POST", "http://localhost:3001/api/test/reset")
@@ -66,14 +66,23 @@ describe("After a blog has been created", () => {
         cy.CreateBlog({
             title: "Created by an External Command",
             author: "Command User",
-            URL: "/commands.js"
+            url: "/commands.js",
+            user: {
+                name: "This user is using the test"
+            }
         })
     })
+    it("The new blog is displayed correctly", () => {
+        cy.contains("Created by an External Command")
+    })
+
     it("more information can be shown", () => {
         cy.contains("Expand").click()
     })
-    it("the blog can be thanked"), () => {
+    it("the blog can be thanked", () => {
         cy.contains("Expand").click()
-    }
+        cy.contains("Thanks").click()
+        cy.contains("Times thanked: 1")
+    })
 })
-*/
+
