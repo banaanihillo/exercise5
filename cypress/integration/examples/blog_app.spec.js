@@ -32,6 +32,9 @@ describe("While logged in to the blog application", () => {
         cy.request("POST", "http://localhost:3001/api/users", user)
         cy.Login({userName: "testUser", password: "This is the passphrase of the user"})
     })
+    it("the application correctly displays the currently logged-in user", () => {
+        cy.contains("Logged in as testUser")
+    })
     it("opening the blog form works", () => {
         cy.contains("Click to create a new blog").click()
     })
