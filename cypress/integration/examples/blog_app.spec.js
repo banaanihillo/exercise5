@@ -84,5 +84,23 @@ describe("After a blog has been created", () => {
         cy.contains("Thanks").click()
         cy.contains("Times thanked: 1")
     })
+
+    it("the blog can not be deleted by anyone else", () => {
+        const maliciousUser = {
+            userName: "notoriousUserWithAFilthyPassword",
+            name: "An Evil Party Attempting to Raise All Kinds of Chaos",
+            password: "password"
+        }
+        cy.request("POST", "http://localhost:3001/api/users", maliciousUser)
+        cy.Login({userName: "notoriousUserWithAFilthyPassword", password: "password"})
+        cy.contains("Expand").click()
+        cy.get("html").should("not.contain", "Remove this blog")
+    })
+
+    it("the blog can be deleted by the user that added it", () => {
+        cy.contains("Expand").click()
+        cy.contains("Remove this blog").click()
+        cy.get("html").should("not.contain", "Created by an External Command")
+    })
 })
 
