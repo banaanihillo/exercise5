@@ -46,6 +46,10 @@ describe("While logged in to the blog application", () => {
         cy.get("#URL").type("Somewhere within the browser")
         cy.contains("Add new blog").click()
         cy.contains("Creating New Entries via Cypress")
+        cy.get(".message")
+            .should("contain", "Successfully added Creating New Entries via Cypress")
+            .and("contain", "by Cypressor")
+            .and("have.css", "color", "rgb(255, 0, 255)")
     })
 })
 /*
