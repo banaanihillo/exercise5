@@ -40,16 +40,14 @@ describe("While logged in to the blog application", () => {
     })
 
     it("creating a new blog works", () => {
-        cy.contains("Click to create a new blog").click()
-        cy.get("#Title").type("Creating New Entries via Cypress")
-        cy.get("#Author").type("Cypressor")
-        cy.get("#URL").type("Somewhere within the browser")
-        cy.contains("Add new blog").click()
-        cy.contains("Creating New Entries via Cypress")
-        cy.get(".message")
-            .should("contain", "Successfully added Creating New Entries via Cypress")
-            .and("contain", "by Cypressor")
-            .and("have.css", "color", "rgb(255, 0, 255)")
+        cy.CreateBlog({
+            title: "Creating New, Authorized Blogs via Cypress",
+            author: "Cypressist",
+            url: "/whoops",
+            user: {
+                name: "Whoever you want me to be"
+            }
+        })
     })
 })
 
@@ -104,3 +102,63 @@ describe("After a blog has been created", () => {
     })
 })
 
+describe("A list of blogs", () => {
+    beforeEach(() => {
+        cy.request("POST", "http://localhost:3001/api/test/reset")
+        const user = {
+            userName: "testUser",
+            name: "This user is using the test",
+            password: "This is the passphrase of the user"
+        }
+        cy.request("POST", "http://localhost:3001/api/users", user)
+        cy.Login({userName: "testUser", password: "This is the passphrase of the user"})
+        cy.CreateBlog({
+            title: "Created by an External Command",
+            author: "Command User",
+            url: "/commands.js",
+            thanks: 5,
+            user: {
+                name: "This user is using the test"
+            }
+        })
+        cy.CreateBlog({
+            title: "This Thing Should Be on Top",
+            author: "Very Grateful",
+            url: "/donate",
+            thanks: 8,
+            user: {
+                name: "This user is using the test"
+            }
+        })
+        cy.CreateBlog({
+            title: "Just a Dummy",
+            author: "Irrelevant",
+            url: "probably doesn't even have a website",
+            user: {
+                name: "This user is using the test"
+            }
+        })
+        cy.CreateBlog({
+            title: "One More, Just for Good Measure",
+            author: "yksMaxKaks",
+            url: "/lastcall",
+            thanks: 6,
+            user: {
+                name: "This user is using the test"
+            }
+        })
+    })
+
+    it("is sorted by the times they've been thanked", () => {
+        cy.get(".blogDisplay").then((blogs) => {
+            cy.contains("Expand").parent().find("button").click()
+            cy.get(blogs[0]).find(".blogThanks").should("contain", "8")
+            cy.contains("Expand").parent().find("button").click()
+            cy.get(blogs[1]).find(".blogThanks").should("contain", "6")
+            cy.contains("Expand").parent().find("button").click()
+            cy.get(blogs[2]).find(".blogThanks").should("contain", "5")
+            cy.contains("Expand").parent().find("button").click()
+            cy.get(blogs[3]).find(".blogThanks").should("contain", "0")
+        })
+    })
+})

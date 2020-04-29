@@ -7,7 +7,7 @@ const Blog = (props) => {
         setDisplay(!displayAll)
     }
     return (
-        <div>
+        <div className = "blogDisplay">
             {!displayAll
                 ? <div> {blog.title}
                     <button onClick = {toggleDisplay}> Expand </button>
@@ -18,7 +18,8 @@ const Blog = (props) => {
                     </p>
                     <p> {blog.author} </p>
                     <p> {blog.url} </p>
-                    <p> Times thanked: {blog.thanks}
+                    <p>
+                        Times thanked: <span className = "blogThanks"> {blog.thanks} </span>
                         <button onClick = {() => addThanks(blog.id)}>
                             Thanks
                         </button>
